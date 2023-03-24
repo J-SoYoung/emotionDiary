@@ -281,3 +281,63 @@ header .head_btn_left {
   background-color: #fd565f;
   color: white;
 }
+/* DiaryPage */
+.DiaryPage section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.DiaryPage h4 {
+  font-size: 22px;
+  font-weight: bold;
+}
+.DiaryPage .diary_img_wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 250px;
+  height: 250px;
+  border-radius: 8px;
+
+  background-color: #ececec;
+}
+.DiaryPage .emotion_desc {
+  font-size: 22px;
+}
+
+.DiaryPage .diary_img_wrapper_1 {
+  background-color: #64c964;
+  color: white;
+}
+.DiaryPage .diary_img_wrapper_2 {
+  background-color: #9dd772;
+  color: white;
+}
+.DiaryPage .diary_img_wrapper_3 {
+  background-color: #fdce17;
+  color: white;
+}
+.DiaryPage .diary_img_wrapper_4 {
+  background-color: #fd8446;
+  color: white;
+}
+.DiaryPage .diary_img_wrapper_5 {
+  background-color: #fd565f;
+  color: white;
+}
+.DiaryPage .diary_content_wrapper {
+  width: 100%;
+  background-color: #ececec;
+  border-radius: 8px;
+  word-break: break-word;
+}
+.DiaryPage .diary_content_wrapper p {
+  padding: 10px;
+  box-sizing: border-box;
+  text-align: left;
+  font-size: 20px;
+  line-height: 2.5;
+}
