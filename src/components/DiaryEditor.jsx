@@ -1,66 +1,52 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import { DiaryDiapatchContext } from "../App";
+import { getStringDate } from "../util/date";
+import { emotionList } from "../util/emotionList";
 import { EmotionItem } from "./EmotionItem";
 import { MyButton } from "./MyButton";
 import { MyHeader } from "./MyHeader";
 
-const emotionList = [
-  {
-    emotion_id: 1,
-    emotion_img: process.env.PUBLIC_URL + `assets/emotion1.png`,
-    emotion_descript: "완전 좋음",
-  },
-  {
-    emotion_id: 2,
-    emotion_img: process.env.PUBLIC_URL + `assets/emotion2.png`,
-    emotion_descript: "좋음",
-  },
-  {
-    emotion_id: 3,
-    emotion_img: process.env.PUBLIC_URL + `assets/emotion3.png`,
-    emotion_descript: "그럭저럭",
-  },
-  {
-    emotion_id: 4,
-    emotion_img: process.env.PUBLIC_URL + `assets/emotion4.png`,
-    emotion_descript: "나쁨",
-  },
-  {
-    emotion_id: 5,
-    emotion_img: process.env.PUBLIC_URL + `assets/emotion5.png`,
-    emotion_descript: "끔찍함",
-  },
-];
-
-const getStringDate = (date) => {
-  return date.toISOString().slice(0, 10);
-};
-export const DiaryEditor = () => {
+export const DiaryEditor = ({ isEdit, originData }) => {
   const navigate = useNavigate();
   const contentRef = useRef();
   const [content, setContent] = useState("");
   const [date, setDate] = useState(getStringDate(new Date()));
   const [emotion, setEmotion] = useState(3);
 
+  useEffect(() => {
+    if (isEdit) {
+      setContent(originData.content);
+      setDate(getStringDate(new Date(originData.date)));
+      setEmotion(originData.emotion);
+    }
+  }, [isEdit, originData]);
+
   const handleEmotion = (emotion_id) => {
     setEmotion(emotion_id);
   };
 
-  const { onCreate } = useContext(DiaryDiapatchContext);
+  const { onCreate, onEdit } = useContext(DiaryDiapatchContext);
   const handleSubmit = () => {
     if (content < 1) {
       contentRef.current.focus();
       return;
     }
-    onCreate(date, content, emotion);
+    if (!isEdit) {
+      onCreate(date, content, emotion);
+      console.log("작성", date, content, emotion);
+    } else {
+      onEdit(originData.id, date, content, emotion);
+      console.log(originData.id, date, content, emotion, "수정");
+    }
     navigate("/", { replace: true });
   };
 
   return (
     <div className="DiaryEditor">
       <MyHeader
-        headText={"새로운 일기쓰기"}
+        headText={isEdit ? "일기 수정하기" : "새로운 일기쓰기"}
         leftChild={
           <MyButton
             text={"< 뒤로가기"}
@@ -113,8 +99,9 @@ export const DiaryEditor = () => {
         <section>
           <div className="control_box">
             <MyButton text={"취소하기"} onClick={() => navigate(-1)} />
+
             <MyButton
-              text={"작성완료"}
+              text={isEdit ? "수정완료" : "작성완료"}
               type={"positive"}
               onClick={handleSubmit}
             />

@@ -14,7 +14,9 @@ export const DiaryItem = ({ id, emotion, content, date }) => {
   return (
     <div className="DiaryItem">
       <div
-        onClick={goDetail}
+        onClick={() => {
+          goDetail(id);
+        }}
         className={[
           "emotion_img_wrapper",
           `emotion_img_wrapper_${emotion}`,
